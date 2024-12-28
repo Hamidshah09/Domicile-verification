@@ -1,6 +1,6 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+<nav x-data="{ open: false }" class="bg-white dark:bg-gray-700 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
@@ -16,16 +16,34 @@
                         {{ __('Applications') }}
                     </x-nav-link>
                 </div>
+                @if (auth()->user()->user_type_id==1)
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('createnew')" :active="request()->routeIs('createnew')">
                         {{ __('New Domicile') }}
                     </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('applyverification')" :active="request()->routeIs('applyverification')">
-                        {{ __('Domicile Verification') }}
-                    </x-nav-link>
-                </div>
+                </div>    
+                @endif
+                @if (auth()->user()->user_type_id==1)
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('applyverification')" :active="request()->routeIs('applyverification')">
+                            {{ __('Domicile Verification') }}
+                        </x-nav-link>
+                    </div>
+                @else
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('applyorgverification')" :active="request()->routeIs('applyorgverification')">
+                            {{ __('Domicile Verification') }}
+                        </x-nav-link>
+                    </div>
+                @endif
+                
+                @if (auth()->user()->role==2)
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('users.grid')" :active="request()->routeIs('users.gird')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+                    </div>           
+                @endif
             </div>
 
             <!-- Settings Dropdown -->
@@ -33,7 +51,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+                            <div class="font-semibold"> <i class="fas fa-user"></i>  <span class="ml-2">{{ Auth::user()->name }}</span></div>
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -45,7 +63,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            <i class="fas fa-user-circle mr-1"></i> {{ __('Profile') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -55,7 +73,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                <i class="fas fa-sign-out-alt mr-1"></i> {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>

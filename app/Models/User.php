@@ -12,11 +12,21 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    public function user_types(){
+        return $this->belongsTo(user_types::class, 'user_type_id', 'id');
+    }
+    public function role_types(){
+        return $this->belongsTo(role_types::class, 'role', 'id');
+    }
+    public function user_statuses(){
+        return $this->belongsTo(user_statuses::class, 'status_id', 'id');
+    }
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
+
     protected $fillable = [
         
         'cnic',

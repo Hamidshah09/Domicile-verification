@@ -1,24 +1,33 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('users.store') }}">
         @csrf
 
         <!-- Type -->
-        {{-- <div>
+        <div>
             <x-input-label for="user_type" :value="__('User Type')" />
-            <select name="user_type_id" id="user_type" class="block mt-1 w-full" :value="old('user_type')" required autofocus autocomplete="user_type">
+            <select name="user_type_id" id="user_type" class="block mt-1 w-full rounded" :value="old('user_type')" required autofocus autocomplete="user_type">
                 <option value="1">Individual</option>
                 <option value="2">Organization</option>
             </select>
             <x-input-error :messages="$errors->get('user_type')" class="mt-2" />
-        </div> --}}
-
+        </div>
+        <!-- Role -->
+        <div>
+            <x-input-label for="role" :value="__('User Role')" />
+            <select name="role_id" id="role" class="block mt-1 w-full rounded" :value="old('role_id')" required autofocus autocomplete="role">
+                <option value="1">Customer</option>
+                <option value="2">Admin</option>
+                <option value="3">Operator</option>
+            </select>
+            <x-input-error :messages="$errors->get('role')" class="mt-2" />
+        </div>
         <!-- CNIC -->
         <div>
             <x-input-label for="cnic" :value="__('CNIC')" />
             <x-text-input id="cnic" class="block mt-1 w-full" type="text" name="cnic" :value="old('cnic')" required autofocus autocomplete="cnic" />
             <x-input-error :messages="$errors->get('cnic')" class="mt-2" />
         </div>
-        
+
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
@@ -39,7 +48,7 @@
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
-
+        
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />

@@ -13,5 +13,14 @@ class application extends Model
     public function application_types(){
         return $this->belongsTo(application_types::class, 'application_type_id', 'id' );
     }
+    public function documents(){
+        return $this->hasMany(document::class, 'application_id',  'id');
+    }
+    public function applicants(){
+        return $this->belongsTo(applicants::class, 'applicant_id', 'id');
+    }
+    public function conversations(){
+        return $this->hasMany(conversation::class, 'application_id', 'id');
+    }
     
 }

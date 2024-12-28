@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Middleware\authorized;
+use App\Http\Middleware\isIndividual;
+use App\Http\Middleware\isorganization;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -11,7 +14,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'authorized'=>authorized::class,
+            'isOrganization'=>isorganization::class,
+            'isIndividual'=>isIndividual::class
+        ]);
+        
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

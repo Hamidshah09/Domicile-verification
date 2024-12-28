@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e5b0cb177f5542a1cec0cddd20471e70",
+    "content-hash": "7e24866893e2d33be6dd9c017ddb1527",
     "packages": [
         {
             "name": "brick/math",
@@ -509,6 +509,115 @@
                 }
             ],
             "time": "2023-10-06T06:47:41+00:00"
+        },
+        {
+            "name": "evosys21/pdflib",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/evosys21/pdflib.git",
+                "reference": "a7573219158f7631d55eb71d9b3e742991ae5a8d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/evosys21/pdflib/zipball/a7573219158f7631d55eb71d9b3e742991ae5a8d",
+                "reference": "a7573219158f7631d55eb71d9b3e742991ae5a8d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "ext-fileinfo": "*",
+                "ext-json": "*",
+                "phpmd/phpmd": "^2.15",
+                "phpmetrics/phpmetrics": "^2.4",
+                "phpstan/phpstan": "^1.12",
+                "phpunit/phpunit": "^9.0",
+                "setasign/fpdf": "^1.8.6",
+                "setasign/tfpdf": "^1.33.0",
+                "squizlabs/php_codesniffer": "*",
+                "symfony/process": "^5.3",
+                "tecnickcom/tcpdf": "^6.7.0",
+                "vlucas/phpdotenv": "^4.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EvoSys21\\PdfLib\\": "src/",
+                    "EvoSys21\\PdfLib\\Examples\\": "examples/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "EvoSys21",
+                    "email": "office@evosys21.com"
+                }
+            ],
+            "description": "Fpdf, TCPDF, tFpdf - Advanced Multicell and Table",
+            "support": {
+                "issues": "https://github.com/evosys21/pdflib/issues",
+                "source": "https://github.com/evosys21/pdflib/tree/1.1.0"
+            },
+            "time": "2024-10-29T13:53:54+00:00"
+        },
+        {
+            "name": "fpdf/fpdf",
+            "version": "1.86.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/coreydoughty/Fpdf.git",
+                "reference": "d2a0cbd9e4b5557b9c6c29ddc8eb2b36d8761e00"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/coreydoughty/Fpdf/zipball/d2a0cbd9e4b5557b9c6c29ddc8eb2b36d8761e00",
+                "reference": "d2a0cbd9e4b5557b9c6c29ddc8eb2b36d8761e00",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "FPDF": "Fpdf\\Fpdf"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Fpdf\\": "src/Fpdf"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Corey Doughty",
+                    "email": "corey@doughty.ca"
+                }
+            ],
+            "description": "FPDF Composer Wrapper",
+            "homepage": "https://github.com/coreydoughty/Fpdf",
+            "keywords": [
+                "fpdf",
+                "pdf",
+                "wrapper"
+            ],
+            "support": {
+                "issues": "https://github.com/coreydoughty/Fpdf/issues",
+                "source": "https://github.com/coreydoughty/Fpdf/tree/1.86.0"
+            },
+            "time": "2023-07-04T16:41:45+00:00"
         },
         {
             "name": "fruitcake/php-cors",

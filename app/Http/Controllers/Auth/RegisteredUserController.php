@@ -36,7 +36,8 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-
+        
+            
         $user = User::create([
             'cnic' => $request->cnic,
             'name' => $request->name,
@@ -51,5 +52,6 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));
+        
     }
 }
