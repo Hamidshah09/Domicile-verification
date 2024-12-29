@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class authorized
+class isAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,11 +16,10 @@ class authorized
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->role!=1){
+        if (Auth::user()->role==2){
             return $next($request);
         }else{
-            abort(404, 'You Are Not Authorized');
+            abort('401', 'You Are not Authorized');
         }
-        
     }
 }

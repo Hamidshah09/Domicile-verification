@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Fpdf\Fpdf;
 use App\Models\applicants;
 use App\Models\application;
 use App\Models\conversation;
@@ -18,19 +18,55 @@ class dashboardController extends Controller
             $user_apps = application::with('application_statuses')
                                     ->with('documents')
                                     ->with('applicants')
-                                    ->with('conversations')
+                                    ->with(["conversations" => function($query){$query->select('id', 'application_id')->where("is_receiver_see", "0")->where('receiver_id', Auth::id());}])
                                     ->with('application_types')
                                     ->where('user_id', '=', Auth::id())->get();
         }else{
             $user_apps = application::with('application_statuses')
                                     ->with('documents')
                                     ->with('applicants')
-                                    ->with('conversations')
+                                    ->with(["conversations" => function($query){$query->select('id', 'application_id')->where("is_receiver_see", "0")->where('receiver_id', Auth::id());}])
                                     ->with('application_types')
-                                    ->where('user_id', '=', Auth::id())->get();
+                                    ->paginate(10);
         }
         return view('dashboard', compact('user_apps'));
 
+    }
+    public function gen_pdf($id, $name, $fathername, $cnic){
+        $pdf = new Fpdf(); 
+        $pdf->AddPage(); 
+        $pdf->SetFont('Arial', 'B', 12); 
+        $pdf->Cell(0, 6, 'GOVERNMENT OF PAKISTAN',0,1,'C');
+        $pdf->Cell(0, 6, 'OFFICE OF THE DEPUTY COMMISSIONER',0,1,'C');
+        $pdf->Cell(0, 6, 'ISLAMABAD CAPITAL TERRITORY',0,1,'C'); 
+        $pdf->Cell(0, 6, '****',0,1,'C');
+        
+        $pdf->SetFont('Arial','', 12); 
+        $pdf->Cell(50, 6, 'No.'. $id .'/Domicile/CFC',0,0,'L');
+        $pdf->Cell(0, 6, 'Dated: '.\Carbon\Carbon::now()->toDateString(),0,1,'R');
+
+        $pdf->SetFont('Arial', 'BU', 12); 
+        $pdf->Cell(0, 6, 'TO WHOM IT MAY CONCERN',0,1,'C');
+        $signature = public_path(). '/images/signature.jpeg';
+        $pdf->Ln(8); 
+        
+        // Add multi-cell text 
+        $pdf->SetFont('Arial','', 12); 
+        $pdf->MultiCell(0, 10, '                 It is verified that Domicile Certificate issued to Mr/Mrs/Miss. '. $name .' s/d/w/o '. $fathername .' having CNIC No. '. $cnic .' is geninue and is issued from this office.'); 
+        
+        $pdf->Image($signature, 130, 75, 50); 
+        $pdf->Ln(20);
+        $pdf->SetFont('Arial','B', 12); 
+        $pdf->Cell(105, 6, '',0,0);
+        $pdf->Cell(0, 6, 'Assistant Commissioner (Saddar)',0,1);
+        
+        $pdf->Cell(125, 6, '',0,0);
+        $pdf->Cell(0, 6, 'Islamabad',0,1);
+
+        // Output the PDF directly to the browser 
+        
+        $pdf_path = storage_path('app\public\certificates\verification'.$id.'.pdf');
+        $pdf->Output('F', $pdf_path);
     }
     public function updatestatus(Request $request, $id){
         $request->validate([
@@ -38,14 +74,20 @@ class dashboardController extends Controller
             'remarks'=>'string|max:100',
 
         ]);
-        if (Auth::user()->role==2){
+        // 1 is citizen means both operator and admin can update status
+        if (Auth::user()->role!=1){
+            // 2 means approve application and user is not admin
+            if($request->status_id==2 and Auth::user()->role!=2){
+                abort(401, 'You are not authorized');
+            }
+            
             $application = application::findorfail($id);
             $application->application_status_id = $request->status_id;
             $application->save();
-
+            
+            
             // application::where('id', $id)
             //              ->update(['status_id', '=', $request->status_id]);
-            
             
             conversation::create([
                 'application_id'=>$id,
@@ -53,7 +95,10 @@ class dashboardController extends Controller
                 'receiver_id'=>$application->user_id,
                 'chat'=>$request->remarks,
             ]);
-            
+            if($request->status_id==2){
+                $application = application::with('applicants')->where('id', $id)->get();
+                $this->gen_pdf($id, $application[0]->applicants->name, $application[0]->applicants->fathername, $application[0]->applicants->cnic);
+            }
                
         }
         return redirect()->route('chat', $id);

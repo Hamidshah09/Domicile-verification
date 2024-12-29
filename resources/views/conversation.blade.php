@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
     <div class="py-12">
-        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                   <div class="chat-container">
@@ -27,17 +27,17 @@
                     <hr class="mt-3" >
                     <div class="chat-body" id="chatBody">
                       @foreach ($conversions as $chat)
-                          @if($chat->sender_id == auth()->user()->id)
-                            <div class="user-chat w-full">
-                              <div class="font-semibold">{{$chat->chat }}</div>
-                              <div>{{$chat->created_at}}</div>  
-                            </div>
-                          @else
-                            <div class="">
-                              <div class="font-semibold">{{$chat->chat }}</div>
-                              <div>{{$chat->created_at}}</div>
-                            </div>
-                          @endif
+                        @if($chat->sender_id == auth()->user()->id)
+                          <div class="user-chat w-full">
+                            <div class="font-semibold">{{$chat->chat}} <x-badge style='blue' name='{{$chat->sender->name }}'/></div>
+                            <div class="mx-2 mt-2">{{$chat->created_at}}</div>  
+                          </div>
+                        @else
+                          <div class="">
+                            <div class="font-semibold"><x-badge style='green' name='{{$chat->sender->name }}'/>{{$chat->chat }}</div>
+                            <div class="mx-2 mt-2">{{$chat->created_at}}</div>
+                          </div>
+                        @endif                         
                       @endforeach
                     </div>
                   </div>
@@ -45,20 +45,5 @@
             </div>
         </div>
     </div>
-    <script>
-      function sendMessage() {
-      var input = document.getElementById("chatInput");
-      var message = input.value.trim();
-      if (message !== "") {
-        var chatBody = document.getElementById("chatBody");
-        var messageElement = document.createElement("div");
-        messageElement.textContent = message;
-        messageElement.className = "user-chat";
-        chatBody.appendChild(messageElement);
-        input.value = "";
-        chatBody.scrollTop = chatBody.scrollHeight;
-      }
-    }
-    </script>
         
 </x-app-layout>

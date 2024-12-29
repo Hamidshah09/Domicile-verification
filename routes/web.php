@@ -1,16 +1,16 @@
 <?php
-use EvoSys21\PdfLib\Multicell;
-use EvoSys21\PdfLib\Fpdf\Pdf; // Pdf extends FPDF
-use Fpdf\Fpdf;
 
+use Fpdf\Fpdf;
 use App\Http\Controllers\chatController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 
 Route::get('/', function () {
     return view('welcome');
+    // return view('test');
 });
 
 Route::get('/dashboard', [dashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
@@ -20,7 +20,7 @@ Route::get('/applyverification', [dashboardController::class, 'applyverification
 Route::get('/applyorgverification', [dashboardController::class, 'applyorgverification'])->middleware(['auth', 'isOrganization'])->name('applyorgverification');
 Route::post('/submitverifiation', [dashboardController::class, 'submitverification'])->middleware(['auth', 'isIndividual'])->name('submitverification');
 Route::post('/submitorgverifiation', [dashboardController::class, 'submitorgverification'])->middleware(['auth', 'isOrganization'])->name('submitorgverification');
-Route::post('/updatestatus/{id}', [dashboardController::class, 'updatestatus'])->middleware(['auth', 'verified'])->name('updatestatus');
+Route::post('/updatestatus/{id}', [dashboardController::class, 'updatestatus'])->middleware(['auth', 'authorized'])->name('updatestatus');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -41,33 +41,41 @@ Route::middleware('auth')->group(function () {
     Route::post('/applications/submitchat/{id}', [chatController::class, 'submitchat'])->name('submitchat');
     Route::get('/applications/certificate',function(){
 
+        $pdf = new Fpdf(); 
+        $pdf->AddPage(); 
+        $pdf->SetFont('Arial', 'B', 12); 
+        $pdf->Cell(0, 6, 'GOVERNMENT OF PAKISTAN',0,1,'C');
+        $pdf->Cell(0, 6, 'OFFICE OF THE DEPUTY COMMISSIONER',0,1,'C');
+        $pdf->Cell(0, 6, 'ISLAMABAD CAPITAL TERRITORY',0,1,'C'); 
+        $pdf->Cell(0, 6, '****',0,1,'C');
+        
+        $pdf->SetFont('Arial','', 12); 
+        $pdf->Cell(50, 6, 'No.123/Domicile/CFC',0,0,'L');
+        $pdf->Cell(0, 6, 'Dated: '.\Carbon\Carbon::now()->toDateString(),0,1,'R');
 
-// create the Pdf Object
+        $pdf->SetFont('Arial', 'BU', 12); 
+        $pdf->Cell(0, 6, 'TO WHOM IT MAY CONCERN',0,1,'C');
+        $signature = public_path(). '/images/signature.jpeg';
+        $pdf->Ln(8); 
+        
+        // Add multi-cell text 
+        $pdf->SetFont('Arial','', 12); 
+        $pdf->MultiCell(0, 10, '                 It is verified that Domicile Certificate issued to Mr. Hamid Ullah Shah s/o Jehangir Shah having CNIC No.4221-456465464-7 is geninue and is issued from this office.'); 
+        
+        $pdf->Image($signature, 130, 75, 50); 
+        $pdf->Ln(20);
+        $pdf->SetFont('Arial','B', 12); 
+        $pdf->Cell(105, 6, '',0,0);
+        $pdf->Cell(0, 6, 'Assistant Commissioner (Saddar)',0,1);
+        
+        $pdf->Cell(125, 6, '',0,0);
+        $pdf->Cell(0, 6, 'Islamabad',0,1);
 
-// require 'vendor/autoload.php';
-
-// Create a new PDF instance
-$pdf = new Fpdf();
-
-// Add a page
-$pdf->AddPage();
-
-// Set font
-$pdf->SetFont('Arial', 'B', 16);
-
-// Add a cell with text
-$pdf->Cell(40, 10, 'Hello, World!');
-
-// Output the PDF to the browser
-
-
-// do some pdf initialization settings
-// $pdf->SetMargins(20, 20, 20);
-
-
-// create the Multicell Object
-$path = storage_path('app/public/certificates/test.pdf');
-$pdf->Output('F', $path);
+        // Output the PDF directly to the browser 
+        
+        $pdf_path = storage_path('app\public\certificates\test2.pdf');
+        $pdf->Output('F', $pdf_path);
+        
     });
 });
 require __DIR__.'/auth.php';

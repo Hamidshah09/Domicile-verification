@@ -18,6 +18,7 @@
                             <th>Application Status</th>
                             <th>Applied on</th>
                             <th class="text-center">Documents</th>
+                            <th class="text-center">Certificate</th>
                             <th class="text-center">History</th>
                             @if (auth()->user()->role==2)
                                 <th class="text-center">Action</th>
@@ -38,10 +39,11 @@
                                 <a class="block" href="{{asset('/storage/'.$documents->document_path)}}">View Document</a>  
                               @endforeach
                             </td>
+                            <td class="text-center"><a class="block" href="{{asset('/storage/certificates/verification'.$app->id .'.pdf')}}">View Certificate</a>  </td>
                             <td class="text-center">
                               <a href="{{route('chat', $app->id)}}" type="button" class="inline-flex items-center px-5 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 Messages
-                                <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
+                                <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-blue-800 bg-blue-800 rounded-full">
                                 {{$app->conversations->count()}}
                                 </span>
                               </a>

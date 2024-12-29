@@ -21,6 +21,12 @@ class User extends Authenticatable
     public function user_statuses(){
         return $this->belongsTo(user_statuses::class, 'status_id', 'id');
     }
+    public function sentConversations() { 
+        return $this->hasMany(Conversation::class, 'sender_id', 'id'); 
+    }  
+    public function receivedConversations() { 
+        return $this->hasMany(Conversation::class, 'receiver_id', 'id'); 
+    }
     /**
      * The attributes that are mass assignable.
      *
