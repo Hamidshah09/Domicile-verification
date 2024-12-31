@@ -1,1 +1,1 @@
-<span class="bg-{{$style}}-300 text-{{$style}}-800 text-xs font-medium me-2 mx-2 px-2 py-2 rounded-full dark:bg-{{$style}}-900 dark:text-{{$style}}-300">{{$name}}</span>
+<span class="bg-{{$style}}-300 text-indigo-700 text-xs font-medium me-2 mx-2 px-2 py-2 rounded-full dark:bg-{{$style}}-900 dark:text-indigo-700">{{$name}}</span>

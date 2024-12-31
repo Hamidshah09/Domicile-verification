@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\PreventFullCnicModification;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -16,7 +17,9 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'cnic'=>['required', new PreventFullCnicModification],
             'name' => ['required', 'string', 'max:255'],
+            'fathername' => ['required', 'string', 'max:255'],
             'email' => [
                 'required',
                 'string',

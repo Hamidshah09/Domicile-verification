@@ -14,8 +14,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [dashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/createnew', [dashboardController::class, 'createnew'])->middleware(['auth', 'verified'])->name('createnew');
-Route::post('/storenew', [dashboardController::class, 'storenew'])->middleware(['auth', 'verified'])->name('storenew');
+Route::get('/createnew', [dashboardController::class, 'createnew'])->middleware(['auth', 'isIndividual'])->name('createnew');
+Route::post('/storenew', [dashboardController::class, 'storenew'])->middleware(['auth', 'isIndividual'])->name('storenew');
 Route::get('/applyverification', [dashboardController::class, 'applyverification'])->middleware(['auth', 'isIndividual'])->name('applyverification');
 Route::get('/applyorgverification', [dashboardController::class, 'applyorgverification'])->middleware(['auth', 'isOrganization'])->name('applyorgverification');
 Route::post('/submitverifiation', [dashboardController::class, 'submitverification'])->middleware(['auth', 'isIndividual'])->name('submitverification');
@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'authorized')->group(function () {
     Route::get('/users/create', [userController::class, 'newuser'])->name('newuser');
     Route::get('/users', [userController::class, 'usersgrid'])->name('users.grid');
     Route::put('/user/update/{id}', [userController::class, 'update'])->name('users.update');
@@ -36,9 +36,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/users/store', [userController::class, 'store'])->name('users.store');
 
 
-    Route::get('/applications/chat/{id}', [chatController::class, 'index'])->name('chat');
+    Route::get('/applications/chat/{id}', [chatController::class, 'index'])->withoutMiddleware('authorized')->name('chat');
 
-    Route::post('/applications/submitchat/{id}', [chatController::class, 'submitchat'])->name('submitchat');
+    Route::post('/applications/submitchat/{id}', [chatController::class, 'submitchat'])->withoutMiddleware('authorized')->name('submitchat');
     Route::get('/applications/certificate',function(){
 
         $pdf = new Fpdf(); 

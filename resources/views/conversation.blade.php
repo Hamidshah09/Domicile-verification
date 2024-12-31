@@ -10,10 +10,10 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                   <div class="chat-container">
                     @if ($errors->any())
-                        <div class="alert alert-danger">
+                        <div class="my-2">
                             <ul>
                                 @foreach ($errors->all() as $error)
-                                    <li style="color:red;">{{$error}}</li>
+                                    <li style="color:rgb(235, 59, 59);">{{$error}}</li>
                                 @endforeach
                             </ul>
                         </div>
@@ -21,10 +21,11 @@
                     
                     <form class="flex flex-row justify-between w-full" action="{{route('submitchat', $conversions[0]->application_id)}}" method="POST">
                       @csrf
-                      <input class="w-full m-2 rounded" type="text" id="chatInput" name="message" placeholder="Type a message..." />
+                      <x-text-input id="message" class="block mt-1 w-full p-2" type="text" name="message" :value="old('message')" required autofocus autocomplete="message" placeholder="Type a message..."/>
+                      {{-- <input class="w-full m-2 rounded" type="text" id="chatInput" name="message" placeholder="Type a message..." /> --}}
                       <button type="submit" class="save-btn">Send</button>
                     </form>
-                    <hr class="mt-3" >
+                    <hr class="mt-3 mb-3" >
                     <div class="chat-body" id="chatBody">
                       @foreach ($conversions as $chat)
                         @if($chat->sender_id == auth()->user()->id)

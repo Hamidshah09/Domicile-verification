@@ -50,8 +50,8 @@
 
     <main class="main">
         <div class="main-title">
-            <p class="lighter-font">Wellcome</p>
-            <p class="bigger-font">Citizen Facilitation Center</p>
+            <p class="lighter-font ml-3">Wellcome</p>
+            <p class="bigger-font ml-3">Citizen Facilitation Center</p>
         </div>
     </main>
     </body>
