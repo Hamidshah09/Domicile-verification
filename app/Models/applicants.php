@@ -10,5 +10,8 @@ class applicants extends Model
     public function applications(){
         return $this->hasMany(application::class, 'applicant_id', 'id');
     }
+    public function childerns(){
+        return $this->hasMany(childern::class, 'applicant_id', 'id');
+    }
 
 }

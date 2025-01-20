@@ -27,6 +27,9 @@ class User extends Authenticatable
     public function receivedConversations() { 
         return $this->hasMany(Conversation::class, 'receiver_id', 'id'); 
     }
+    public function applications(){
+        return $this->hasMany(application::class, 'user_id', 'id');
+    }
     /**
      * The attributes that are mass assignable.
      *

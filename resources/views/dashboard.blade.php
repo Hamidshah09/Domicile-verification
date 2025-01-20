@@ -7,7 +7,39 @@
     <div class="py-12">
         <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+                <div class="p-6 text-gray-900 dark:text-gray-100 overflow-x-auto">
+                    <form action="{{route('dashboard')}}" method="GET">
+                      <div class="flex flex-row flex-w">
+                        <x-text-input id="search" class="mt-1 w-48 p-2 mx-2" type="text" name="search" value="{{ old('search') }}" autofocus autocomplete="cnic" />
+                        <select name="search_type" id="search_type" class= "w-48 mt-1 border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" autofocus autocomplete="gender">
+                          <option value="application_no" {{ old('search_type') == 'application_no' ? 'selected' : '' }}>Application No</option> 
+                          <option value="cnic" {{ old('search_type') == 'cnic' ? 'selected' : '' }}>CNIC </option> 
+                          <option value="name" {{ old('search_type') == 'name' ? 'selected' : '' }}>Name</option>
+                        </select>
+                        <div>
+                          <label for="" class="mt-3 mx-2">From</label>
+                          <x-text-input id="from" class="mt-1 p-2 w-48" type="date" name="from" value="{{ old('from') }}" autofocus autocomplete="from" />
+                        </div>
+                        <div>
+                          <label for="" class="mt-3 mx-2">To</label>
+                        <x-text-input id="to" class="mt-1 p-2 w-48" type="date" name="to" value="{{ old('to') }}" autofocus autocomplete="to" />
+                        </div>
+                        <select name="application_type_id" id="application_type" class= "w-48 mt-1 mx-2 border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" autofocus autocomplete="gender">
+                          <option value="" {{ old('application_type_id') == '' ? 'selected' : '' }}>All</option> 
+                          <option value="1" {{ old('application_type_id') == '1' ? 'selected' : '' }}>New</option> 
+                          <option value="2" {{ old('application_type_id') == '2' ? 'selected' : '' }}>Verification</option>
+                        </select>
+                        <select name="application_status_id" id="status" class="w-48 mt-1 border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" autofocus autocomplete="gender">
+                          <option value="" {{ old('application_status_id') == '' ? 'selected' : '' }}>All</option> 
+                          @foreach ($app_statuses as $app_status) 
+                            <option value="{{ $app_status->id }}" {{ old('application_status_id') == $app_status->id ? 'selected' : '' }}>{{ $app_status->application_status }}</option> 
+                          @endforeach
+                        </select>
+                        <x-primary-button class="mt-1 ms-3" type="submit">
+                          {{ __('Search') }}
+                        </x-primary-button>
+                      </div>
+                    </form>
                     <table class="styled-table">
                         <thead>
                           <tr>
@@ -25,9 +57,7 @@
                             @endif
                             
                             <th class="text-center">History</th>
-                            @if (auth()->user()->role==2 or auth()->user()->role==3)
-                                <th class="text-center">Action</th>
-                            @endif
+                            <th class="text-center">Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -56,8 +86,8 @@
                             
                         
                             <td class="text-center">
-                              <a href="{{route('chat', $app->id)}}" type="button" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                Messages
+                              <a href="{{route('chat', $app->id)}}" type="button" class="icon-font-1">
+                                <i class="far fa-comments"></i>
                                 <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-blue-800 bg-blue-800 rounded-full">
                                 {{$app->conversations->count()}}
                                 </span>
@@ -110,7 +140,19 @@
                                     </a>
                                   </td>    
                                 @endif
+                            @else
+                              <td class="text-center">
+                                @if (auth()->user()->user_type_id==1)
+                                  @if($app->application_type_id==1)  
+                                    <a href="{{route('editnew', $app->id)}}" class="icon-font"><i class="fas fa-edit"></i></a>
+                                  @else
+                                    <a href="{{route('editverification', $app->id)}}" class="icon-font"><i class="fas fa-edit"></i></a>    
+                                  @endif
+                                @else
+                                    <a href="{{route('editorgverification', $app->id)}}" class="icon-font"><i class="fas fa-edit"></i></a>    
+                                @endif
                                 
+                              </td>
                             @endif
                           </tr>
                           @endforeach
@@ -181,8 +223,7 @@
           }, 3000);
         } 
       }; 
-      var data = JSON.stringify({ status_id: status_id, remarks:statuses[status_id].remarks}); 
-      console.log(data);
+      var data = JSON.stringify({ status_id: status_id, remarks:statuses[status_id].remarks});
       xhr.send(data);
     }
     

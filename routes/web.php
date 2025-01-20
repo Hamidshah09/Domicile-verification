@@ -5,6 +5,7 @@ use App\Http\Controllers\chatController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\userController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 
@@ -12,15 +13,32 @@ Route::get('/', function () {
     return view('welcome');
     // return view('test');
 });
+Route::get('/test', [dashboardController::class, 'test'])->name('test');
+Route::get('/tehsils', function(){
+    $tehsils = DB::table('tehsils')->get(['ID', 'Teh_name']);
+    return response()->json($tehsils);
+    
+});
 
+Route::get('/districts', function(){
+    $districts = DB::table('districts')->get(['ID', 'Dis_name']);
+    return response()->json($districts);
+});
 Route::get('/dashboard', [dashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/createnew', [dashboardController::class, 'createnew'])->middleware(['auth', 'isIndividual'])->name('createnew');
 Route::post('/storenew', [dashboardController::class, 'storenew'])->middleware(['auth', 'isIndividual'])->name('storenew');
+Route::get('/editnew/{id}', [dashboardController::class, 'editnew'])->middleware(['auth', 'isIndividual'])->name('editnew');
+Route::post('/updatenew/{id}', [dashboardController::class, 'updatenew'])->middleware(['auth', 'isIndividual'])->name('updatenew');
 Route::get('/applyverification', [dashboardController::class, 'applyverification'])->middleware(['auth', 'isIndividual'])->name('applyverification');
-Route::get('/applyorgverification', [dashboardController::class, 'applyorgverification'])->middleware(['auth', 'isOrganization'])->name('applyorgverification');
 Route::post('/submitverifiation', [dashboardController::class, 'submitverification'])->middleware(['auth', 'isIndividual'])->name('submitverification');
+Route::get('/editverification/{id}', [dashboardController::class, 'editverification'])->middleware(['auth', 'isIndividual'])->name('editverification');
+Route::put('/updateverificationapp/{id}', [dashboardController::class, 'updateverificationapp'])->middleware(['auth', 'isIndividual'])->name('updateverificationapp');
+Route::get('/editorgverification/{id}', [dashboardController::class, 'editorgverification'])->middleware(['auth', 'isOrganization'])->name('editorgverification');
+Route::put('/updatorgverificationapp/{id}', [dashboardController::class, 'updateorgverificationapp'])->middleware(['auth', 'isOrganization'])->name('updateorgverificationapp');
+Route::get('/applyorgverification', [dashboardController::class, 'applyorgverification'])->middleware(['auth', 'isOrganization'])->name('applyorgverification');
 Route::post('/submitorgverifiation', [dashboardController::class, 'submitorgverification'])->middleware(['auth', 'isOrganization'])->name('submitorgverification');
 Route::post('/updatestatus/{id}', [dashboardController::class, 'updatestatus'])->middleware(['auth', 'authorized'])->name('updatestatus');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -39,43 +57,6 @@ Route::middleware('auth', 'authorized')->group(function () {
     Route::get('/applications/chat/{id}', [chatController::class, 'index'])->withoutMiddleware('authorized')->name('chat');
 
     Route::post('/applications/submitchat/{id}', [chatController::class, 'submitchat'])->withoutMiddleware('authorized')->name('submitchat');
-    Route::get('/applications/certificate',function(){
-
-        $pdf = new Fpdf(); 
-        $pdf->AddPage(); 
-        $pdf->SetFont('Arial', 'B', 12); 
-        $pdf->Cell(0, 6, 'GOVERNMENT OF PAKISTAN',0,1,'C');
-        $pdf->Cell(0, 6, 'OFFICE OF THE DEPUTY COMMISSIONER',0,1,'C');
-        $pdf->Cell(0, 6, 'ISLAMABAD CAPITAL TERRITORY',0,1,'C'); 
-        $pdf->Cell(0, 6, '****',0,1,'C');
-        
-        $pdf->SetFont('Arial','', 12); 
-        $pdf->Cell(50, 6, 'No.123/Domicile/CFC',0,0,'L');
-        $pdf->Cell(0, 6, 'Dated: '.\Carbon\Carbon::now()->toDateString(),0,1,'R');
-
-        $pdf->SetFont('Arial', 'BU', 12); 
-        $pdf->Cell(0, 6, 'TO WHOM IT MAY CONCERN',0,1,'C');
-        $signature = public_path(). '/images/signature.jpeg';
-        $pdf->Ln(8); 
-        
-        // Add multi-cell text 
-        $pdf->SetFont('Arial','', 12); 
-        $pdf->MultiCell(0, 10, '                 It is verified that Domicile Certificate issued to Mr. Hamid Ullah Shah s/o Jehangir Shah having CNIC No.4221-456465464-7 is geninue and is issued from this office.'); 
-        
-        $pdf->Image($signature, 130, 75, 50); 
-        $pdf->Ln(20);
-        $pdf->SetFont('Arial','B', 12); 
-        $pdf->Cell(105, 6, '',0,0);
-        $pdf->Cell(0, 6, 'Assistant Commissioner (Saddar)',0,1);
-        
-        $pdf->Cell(125, 6, '',0,0);
-        $pdf->Cell(0, 6, 'Islamabad',0,1);
-
-        // Output the PDF directly to the browser 
-        
-        $pdf_path = storage_path('app\public\certificates\test2.pdf');
-        $pdf->Output('F', $pdf_path);
-        
-    });
+    
 });
 require __DIR__.'/auth.php';

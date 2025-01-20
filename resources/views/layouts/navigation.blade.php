@@ -96,8 +96,29 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('Applications') }}
             </x-responsive-nav-link>
+            @if (auth()->user()->user_type_id==1)
+            <x-responsive-nav-link :href="route('createnew')" :active="request()->routeIs('createnew')">
+                {{ __('Apply for New Domicile') }}
+            </x-responsive-nav-link>  
+            @endif
+                @if (auth()->user()->user_type_id==1)
+                    <x-responsive-nav-link :href="route('applyverification')" :active="request()->routeIs('applyverification')">
+                        {{ __('Apply for Verification') }}
+                    </x-responsive-nav-link>
+                @else
+                <x-responsive-nav-link :href="route('applyorgverification')" :active="request()->routeIs('applyorgverification')">
+                    {{ __('Apply for Verification') }}
+                </x-responsive-nav-link>
+                @endif
+                
+                @if (auth()->user()->role==2)
+                <x-responsive-nav-link :href="route('users.grid')" :active="request()->routeIs('users.grid')">
+                    {{ __('Users') }}
+                </x-responsive-nav-link>           
+                @endif
+
         </div>
 
         <!-- Responsive Settings Options -->
