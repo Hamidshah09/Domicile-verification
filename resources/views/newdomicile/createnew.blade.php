@@ -246,12 +246,19 @@
     <script>
         var child_input = document.getElementById('children_checkbox');
         child_input.onclick = function(){
-            document.getElementById('table-responsive').classList.toggle('hidden');
+            
             
             if (child_input.checked){
+                document.getElementById('table-responsive').classList.remove('hidden');
                 create_child_row();
             }else{
-                delete_all_rows();
+                if (confirm("Do you want to delete all children?")) {
+                    // User clicked OK
+                    delete_all_rows();
+                    document.getElementById('table-responsive').classList.add('hidden');   
+                } else{
+                    child_input.checked = true;
+                }
             }
             
         }
@@ -363,7 +370,12 @@
                 tableBody.deleteRow(0); 
             }
         }
-        
+        document.getElementById('same_as_above').addEventListener('click', function() { 
+            document.getElementById('permanent_province_id').selectedIndex = document.getElementById('temp_province_id').selectedIndex;
+            document.getElementById('permanent_tehsil_id').selectedIndex = document.getElementById('temp_tehsil_id').selectedIndex;
+            document.getElementById('permanent_district_id').selectedIndex = document.getElementById('temp_district_id').selectedIndex;
+            document.getElementById('permanent_address').value = document.getElementById('temp_address').value;
+        });
         // document.getElementById('addRowButton').addEventListener('click', function() { 
         // create_child_row();
 
@@ -374,31 +386,7 @@
         
         
         
-        document.addEventListener('DOMContentLoaded', function() { 
-            // Function to toggle the visibility of the scan document cell 
-            function toggleScanDocTd(checkbox) { 
-                const th = document.getElementById('scan_doc_th');
-                const currentTd = checkbox.closest('td'); 
-                const nextTd = currentTd.nextElementSibling; 
-                if (checkbox.checked) { 
-                    nextTd.classList.remove('hidden'); 
-                    th.classList.remove('hidden'); 
-                } else { 
-                    nextTd.classList.add('hidden');
-                    th.classList.add('hidden'); 
-                }
-            } 
-            // Add event listener to the entire table body 
-            const tableBody = document.getElementById('table-body'); 
-            tableBody.addEventListener('change', function(event) { 
-                if (event.target && event.target.id.startsWith('child_is_applicant')) { 
-                    toggleScanDocTd(event.target); 
-                } 
-            }); 
-            // Initialize the visibility for any existing checkboxes 
-            const checkboxes = tableBody.querySelectorAll('input[type="checkbox"][id^="child_is_applicant"]'); 
-            checkboxes.forEach(toggleScanDocTd);
-        });
+       
         document.addEventListener('DOMContentLoaded', function() { 
             fetch('http://127.0.0.1:8000/tehsils') 
             .then(response => response.json()) 

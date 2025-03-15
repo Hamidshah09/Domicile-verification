@@ -13,5 +13,7 @@ class applicants extends Model
     public function childerns(){
         return $this->hasMany(childern::class, 'applicant_id', 'id');
     }
-
+    public function occupations(){
+        return $this->hasMany(occupation::class,'occupation_id', 'id');
+    }
 }

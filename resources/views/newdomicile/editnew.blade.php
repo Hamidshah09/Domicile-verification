@@ -74,12 +74,13 @@
                             <div class="form-control">
                                 <x-input-label for="marital_status" :value="__('Marital Status')" />
                                 <select name="marital_status_id" id="marital_status_id" class="w-full border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" :value="old('marital_status_id', $application->applicants->marital_status_id)" required autofocus autocomplete="marital_status">
+                                    <option value="">Select Marital Status</option>
                                     @foreach ($marital_statuses as $marital_status)
-                                        <option value="">Select Marital Status</option>
+                                        
                                         @if ($application->applicants->marital_status_id==$marital_status->id)
                                             <option selected value="{{$marital_status->id}}">{{$marital_status->marital_status}}</option>     
                                         @else
-                                        <option value="{{$marital_status->id}}">{{$marital_status->marital_status}}</option>     
+                                            <option value="{{$marital_status->id}}">{{$marital_status->marital_status}}</option>     
                                         @endif
                                     @endforeach    
                                 </select>
@@ -149,10 +150,10 @@
                                 <select name="temporaryAddress_district_id" id="temp_district_id" class="w-full border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" :value="old('temporaryAddress_district_id')" required autofocus autocomplete="temp_district_id">
                                     <option value="">Select District</option>
                                     @foreach ($districts as $district)
-                                        @if ($district->id==$application->applicants->temporaryAddress_district_id)
-                                            <option selected value="{{$district->id}}">{{$district->Dis_Name}}</option>
+                                        @if ($district->ID==$application->applicants->temporaryAddress_district_id)
+                                            <option selected value="{{$district->ID}}">{{$district->Dis_Name}}</option>
                                         @else
-                                            <option value="{{$district->id}}">{{$district->Dis_Name}}</option>
+                                            <option value="{{$district->ID}}">{{$district->Dis_Name}}</option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -163,10 +164,10 @@
                                 <select name="temporaryAddress_tehsil_id" id="temp_tehsil_id" class="w-full border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" :value="old('temporaryAddress_tehsil_id')" required autofocus autocomplete="temp_tehsil_id">
                                     <option value="" >Select Tehsil</option>
                                     @foreach ($tehsils as $tehsil)
-                                        @if ($tehsil->id==$application->applicants->temporaryAddress_tehsil_id)
-                                            <option selected value="{{$tehsil->id}}">{{$tehsil->Teh_name}}</option>
+                                        @if ($tehsil->ID==$application->applicants->temporaryAddress_tehsil_id)
+                                            <option selected value="{{$tehsil->ID}}">{{$tehsil->Teh_name}}</option>
                                         @else
-                                            <option value="{{$tehsil->id}}">{{$tehsil->Teh_name}}</option>
+                                            <option value="{{$tehsil->ID}}">{{$tehsil->Teh_name}}</option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -201,13 +202,13 @@
                             </div>
                             <div class="form-control">
                                 <x-input-label for="permanent_district_id" :value="__('Permanent District')" />
-                                <select name="permanentAddress_district_id" id="permanent_district_id" class="w-full border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" :value="old('permanentAddress_district_id')" required autofocus autocomplete="permanent_district_id">
+                                <select name="permanentAddress_district_id" id="permanent_district_id" class="w-full border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" :value="old('permanentAddress_district_id', $application->applicants->permanentAddress_district_id)" required autofocus autocomplete="permanent_district_id">
                                     <option value="">Select District</option>
                                     @foreach ($districts as $district)
-                                        @if ($district->id==$application->applicants->permanentAddress_district_id)
-                                            <option selected value="{{$district->id}}">{{$district->Dis_Name}}</option>
+                                        @if ($district->ID==$application->applicants->permanentAddress_district_id)
+                                            <option selected value="{{$district->ID}}">{{$district->Dis_Name}}</option>
                                         @else
-                                            <option value="{{$district->id}}">{{$district->Dis_Name}}</option>
+                                            <option value="{{$district->ID}}">{{$district->Dis_Name}}</option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -215,13 +216,13 @@
                             </div>
                             <div class="form-control">
                                 <x-input-label for="permanent_tehsil_id" :value="__('Permanent Tehsil')" />
-                                <select name="permanentAddress_tehsil_id" id="permanent_tehsil_id" class="w-full border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" :value="old('permanentAddress_tehsil_id')" required autofocus autocomplete="permanent_tehsil_id">
+                                <select name="permanentAddress_tehsil_id" id="permanent_tehsil_id" class="w-full border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" :value="old('permanentAddress_tehsil_id', $application->applicants->permanentAddress_teshsil_id)" required autofocus autocomplete="permanent_tehsil_id">
                                     <option value="" >Select Tehsil</option>
                                     @foreach ($tehsils as $tehsil)
-                                        @if ($tehsil->id==$application->applicants->permanentAddress_tehsil_id)
-                                            <option selected value="{{$tehsil->id}}">{{$tehsil->Teh_name}}</option>
+                                        @if ($tehsil->ID==$application->applicants->permanentAddress_tehsil_id)
+                                            <option selected value="{{$tehsil->ID}}">{{$tehsil->Teh_name}}</option>
                                         @else
-                                            <option value="{{$tehsil->id}}">{{$tehsil->Teh_name}}</option>
+                                            <option value="{{$tehsil->ID}}">{{$tehsil->Teh_name}}</option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -236,16 +237,33 @@
                         <div id="scan_documents_container">    
                             <div class="form-control">
                                 <x-input-label for="scan_documents" :value="__('Upload one pdf which contains all documents')" />
-                                <x-text-input id="scan_documents" class="block mt-1 w-full p-2" type="file" name="scan_documents" :value="old('scan_documents')" required autofocus autocomplete="scan_documents" />
+                                <x-text-input id="scan_documents" class="block mt-1 w-full p-2" type="file" name="scan_documents" :value="old('scan_documents')" autofocus autocomplete="scan_documents" />
                                 <x-input-error :messages="$errors->get('scan_documents')" class="mt-2" />
                             </div>                      
                         </div>
-                        <div class="my-2 mx-3 hidden" id="children_div">
-                            <label class="">
-                                <input name="children_checkbox" value="1" id="children_checkbox" type="checkbox" class="rounded">
-                                <span class="input-span"></span>Have Children</label>
+                        @if ($application->applicants->childerns->count()==0 && $application->applicants->marital_status_id!=1)
+                            <div class="my-2 mx-3" id="children_div">
+                                <label class="">
+                                    <input name="children_checkbox" value="1" id="children_checkbox" type="checkbox" class="rounded">
+                                    <span class="input-span"></span>Have Children</label>
+                            </div>
+                        @elseif ($application->applicants->childerns->count()>0 && $application->applicants->marital_status_id!=1)
+                            <div class="my-2 mx-3" id="children_div">
+                                <label class="">
+                                    <input checked name="children_checkbox" value="1" id="children_checkbox" type="checkbox" class="rounded">
+                                    <span class="input-span"></span>Have Children</label>
+                            </div>
+                        @else
+                            <div class="my-2 mx-3 hidden" id="children_div">
+                                <label class="">
+                                    <input name="children_checkbox" value="1" id="children_checkbox" type="checkbox" class="rounded">
+                                    <span class="input-span"></span>Have Children</label>
+                            </div>
+                        @endif
+                        
+                            
                                 
-                        </div>
+                       
                         
                         <div >
                             @if ($application->applicants->childerns->count()>0)
@@ -261,13 +279,31 @@
                                     <th>Add Child</th>   
                                 </thead>
                                 <tbody id="table-body">
+                                    @php
+                                        $count = 0;
+                                    @endphp
                                     @foreach ($application->applicants->childerns as $child)
                                         <tr>
                                             
-                                            <td class="hidden"><input type="hidden" name="childern[{{$child->id}}]id" value="{{$child->id}}"></td>
-                                            <td><input type="text" name="childern[{{$child->id}}]name" class="border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block mt-1 w-full p-2 mx-2"></td>
-                                            <td><input type="text" name="childern[{{$child->id}}]cnic" max="13" min="13" class="border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block mt-1 w-full p-2 mx-2"></td>
-                                            <td><input type="text" name="childern[{{$child->id}}]cnic" max="13" min="13" class="border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block mt-1 w-full p-2 mx-2"></td>
+                                            <td class="hidden"><input type="hidden" name="children[{{$count}}][id]" value="{{$child->id}}"></td>
+                                            <td><input type="text" name="children[{{$count}}][name]" value="{{$child->child_name}}" class="border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block mt-1 w-full p-2 mx-2"></td>
+                                            <td><input type="text" name="children[{{$count}}][cnic]" value="{{$child->child_cnic}}" max="13" min="13" class="border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block mt-1 w-full p-2 mx-2"></td>
+                                            <td><input type="date" name="children[{{$count}}][date_of_birth]" value="{{$child->child_dob}}" class="border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block mt-1 w-full p-2 mx-2"></td>
+                                            <td>
+                                                <select name="children[{{$count}}][gender_id]" id="" class="border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block mt-1 w-full p-2 mx-2">
+                                                    @foreach ($genders as $gender)
+                                                        @if ($gender->id==$child->child_gender_id)
+                                                            <option selected value="{{$gender->id}}">{{$gender->gender}}</option>
+                                                        @else
+                                                            <option value="{{$gender->id}}">{{$gender->gender}}</option>
+                                                        @endif
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td><a class="icon-font-1 mx-2" onclick="create_child_row()" href="javascript:void(0)"><i class="fas fa-plus-circle"></i></a><a class="icon-font-1 mx-2" onclick="remove_child_row()"  href="javascript:void(0)"><i class="fas fa-minus-circle"></i></a></td>
+                                            @php
+                                                $count = $count + 1;
+                                            @endphp
                                         </tr>
                                     @endforeach    
                                 </tbody>
@@ -287,12 +323,19 @@
     <script>
         var child_input = document.getElementById('children_checkbox');
         child_input.onclick = function(){
-            document.getElementById('table-responsive').classList.toggle('hidden');
+            
             
             if (child_input.checked){
+                document.getElementById('table-responsive').classList.remove('hidden');
                 create_child_row();
             }else{
-                delete_all_rows();
+                if (confirm("Do you want to delete all children?")) {
+                    // User clicked OK
+                    delete_all_rows();
+                    document.getElementById('table-responsive').classList.add('hidden');   
+                } else{
+                    child_input.checked = true;
+                }
             }
             
         }
@@ -302,12 +345,19 @@
             let newTd = document.createElement('td');
             let nameInput = document.createElement('input') 
             nameInput.className = 'border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block mt-1 w-full p-2 mx-2'; 
+            
             nameInput.type = 'text'; 
             nameInput.name = `children[${inputContainer.children.length}][name]`; 
             nameInput.required = true; 
             nameInput.autofocus = true; 
             nameInput.autocomplete = `children[${inputContainer.children.length}][name]`; 
             newTd.appendChild(nameInput);  
+            let idInput = document.createElement('input')
+            idInput.type = 'hidden';
+            idInput.name = `children[${inputContainer.children.length}][id]`;
+            idInput.value = '0'; 
+
+            newTd.appendChild(idInput);  
             newTr.appendChild(newTd);
 
             let secondTd = document.createElement('td');
@@ -418,32 +468,21 @@
         // remove_child_row();
         // });
         
-        
-        
-        document.addEventListener('DOMContentLoaded', function() { 
-            // Function to toggle the visibility of the scan document cell 
-            function toggleScanDocTd(checkbox) { 
-                const th = document.getElementById('scan_doc_th');
-                const currentTd = checkbox.closest('td'); 
-                const nextTd = currentTd.nextElementSibling; 
-                if (checkbox.checked) { 
-                    nextTd.classList.remove('hidden'); 
-                    th.classList.remove('hidden'); 
+        var maritalStatusSelect = document.getElementById('marital_status_id'); 
+            var childrenDiv = document.getElementById('children_div'); 
+            maritalStatusSelect.addEventListener('change', function() { 
+                console.log(maritalStatusSelect.value);
+                if (maritalStatusSelect.value != "1") { 
+                    childrenDiv.classList.remove('hidden');
+                    var child_input = document.getElementById('children_checkbox');
+                    if (child_input.checkbox){
+                        document.getElementById('table-responsive').classList.remove('hidden');    
+                    } 
                 } else { 
-                    nextTd.classList.add('hidden');
-                    th.classList.add('hidden'); 
-                }
-            } 
-            // Add event listener to the entire table body 
-            const tableBody = document.getElementById('table-body'); 
-            tableBody.addEventListener('change', function(event) { 
-                if (event.target && event.target.id.startsWith('child_is_applicant')) { 
-                    toggleScanDocTd(event.target); 
+                    childrenDiv.classList.add('hidden');
                 } 
-            }); 
-            // Initialize the visibility for any existing checkboxes 
-            const checkboxes = tableBody.querySelectorAll('input[type="checkbox"][id^="child_is_applicant"]'); 
-            checkboxes.forEach(toggleScanDocTd);
-        });
+            });
+        
+        
     </script>
 </x-app-layout>

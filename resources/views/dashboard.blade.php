@@ -86,9 +86,9 @@
                             
                         
                             <td class="text-center">
-                              <a href="{{route('chat', $app->id)}}" type="button" class="icon-font-1">
+                              <a href="{{route('chat', $app->id)}}" type="button" class="icon-font-1 flex flex-row">
                                 <i class="far fa-comments"></i>
-                                <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-blue-800 bg-blue-800 rounded-full">
+                                <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-blue-100 rounded-full">
                                 {{$app->conversations->count()}}
                                 </span>
                               </a>
@@ -157,7 +157,10 @@
                           </tr>
                           @endforeach
                         </tbody>
-                      </table>
+                    </table>
+                    <div>
+                      {{ $user_apps->links() }}
+                    </div>
                 </div>
             </div>
         </div>
