@@ -14,6 +14,9 @@ class applicants extends Model
         return $this->hasMany(childern::class, 'applicant_id', 'id');
     }
     public function occupations(){
-        return $this->hasMany(occupation::class,'occupation_id', 'id');
+        return $this->belongsTo(occupation::class,'occupation_id', 'id');
+    }
+    public function marital_status(){
+        return $this->hasOne(marital_status::class, 'id','marital_status_id');
     }
 }

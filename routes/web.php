@@ -55,7 +55,6 @@ Route::middleware('auth', 'authorized')->group(function () {
 
 
     Route::get('/applications/chat/{id}', [chatController::class, 'index'])->withoutMiddleware('authorized')->name('chat');
-
     Route::post('/applications/submitchat/{id}', [chatController::class, 'submitchat'])->withoutMiddleware('authorized')->name('submitchat');
     
 });

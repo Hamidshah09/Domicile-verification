@@ -78,7 +78,7 @@
                               @if ($app->application_types->id==2 and $app->application_statuses->id==4)
                                 <td class="text-center"><a class="block" href="{{asset('/storage/certificates/verification'.$app->id .'.pdf')}}">View Certificate</a>  </td>
                               @else
-                              <td></td>    
+                                <td class="text-center"><a class="block" href="{{asset('/storage/certificates/form-p'.$app->id .'.pdf')}}">View Form P</a>  </td>    
                               @endif
                             @else
                               <td class="text-center icon-font-1"><a href="https://admin-icta.nitb.gov.pk/domicile/applications?keyword={{$app->applicants->cnic}}&from=&to=&status=" target="_blank"><i class="fas fa-file-import"></i></a></td>    

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Fpdf\Fpdf;
+use Fpdf\html2pdf;
 use App\Models\applicants;
 use App\Models\application;
 use App\Models\application_statuses;
@@ -20,36 +21,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use PDF_HTML;
 use phpDocumentor\Reflection\PseudoTypes\LowercaseString;
 
 class dashboardController extends Controller
 {
     public function test(){
-        // $applicants = applicants::with('childerns')->get();
+        // $applicants = applicants::with('marital_status')->findorfail(14);
         $application = application::with(['applicants'=>function($query){
-            $query->select('id', 'cnic', 'name', 'fathername', 'date_of_birth', 'date_of_arrival', 'temporaryAddress', 'permanentAddress' )->with('childerns');
-            }])
-            
-            ->where('id', '28')->get();
-        return $application;
+            $query->select('id', 'cnic', 'name', 'fathername', 'date_of_birth', 
+            'date_of_arrival', 'temporaryAddress', 'permanentAddress', 'marital_status_id', 'occupation_id')
+            ->with('childerns', 'marital_status', 'occupations');
+            }])->where('id', '28')->get();
+            $this->gen_form_p(28, $application);
+            return $application;
     }
     public function gen_form_p($id, $application){
-        $filename = "example.txt";
-
-        // Open the file in write mode ("w" will overwrite the file if it exists)
-        $file = fopen($filename, "w");
-
-        // Check if the file was successfully opened
-        if ($file) {
-            // Content to write into the file
-            $content = "method executed";
-
-            // Write content to the file
-            fwrite($file, $content);
-
-            // Close the file
-            fclose($file);
-        }
+        // $pdf = new PDF_HTML();
         $pdf = new Fpdf(); 
         $pdf->AddPage();
         $pdf->SetMargins(15, 15, 15); 
@@ -64,32 +52,50 @@ class dashboardController extends Controller
         $pdf->SetFont('Arial','', 12); 
         $pdf->Cell(10, 6, '',0,0,'L');
         $pdf->Cell(20, 6, 'To',0,0,'L');
-        $pdf->Cell(0, 6, 'District Magistrate',0,1,'L');
+        $pdf->Cell(0, 6, 'The District Magistrate,',0,1,'L');
 
         $pdf->Cell(10, 6, '',0,0,'L');
         $pdf->Cell(20, 6, '',0,0,'L');
-        $pdf->Cell(0, 6, 'Islamabad',0,1,'L');
-        $pdf->MultiCell(0, 10, 'I'. $application->applicants->name  .'					S/D/W/O		______________________Age_______ DOB			 Present Address						_____________ Permanent Address										. I was formerly the resident of 			. I have arrived in Capital Islamabad Tehsil Islamabad District Islamabad Rev/Admin Federal Area in Pakistan since   		day of ________20  	. I have been continuously residing in Pakistan since ___________immediately preceding this declaration and I hereby express my intention to abandon my domicile of origin in my intention to take up my placed habitation in Pakistan during the reminder of my life.'); 
-        $pdf->MultiCell(0, 10, '             I further affirm that I had not migrated to India & returned to Pakistan between the 1st March 1947 to the date of this application except on visa No.	dated Nil issued by the Pakistan Passport office at Nil');
-        $pdf->SetFont('Arial', 'B', 12); 
-        $pdf->Cell(0, 10, 'Other particulars are given below:-',0,1,'L');
-        $pdf->Cell(0, 10, 'Married/single',0,1,'L');
-        $pdf->Cell(0, 10, 'Name of Wife/Husband',0,1,'L');
-        $pdf->Cell(0, 10, 'Name of Children & their ages including date of birth:',0,1,'L');
-        $pdf->Cell(0, 10, 'Trade & Occupation:',0,1,'L');
+        $pdf->Cell(0, 6, 'Islamabad.',0,1,'L');
         
-        $pdf->Cell(0, 10, 'Purpose for obtaining Domicile:',0,1,'L');
+        $pdf->MultiCell(0, 10, 'I '.$application[0]->applicants->name .' S/D/W/O '.$application[0]->applicants->fathername . ' Date of Birth ' . $application[0]->applicants->date_of_birth . ' Present Address '.$application[0]->applicants->temporaryAddress .' Permanent Address '. $application[0]->applicants->permanentAddress .'. I was formerly the resident of 			. I have arrived in Capital Islamabad Tehsil Islamabad District Islamabad Rev/Admin Federal Area in Pakistan since '.$application[0]->applicants->date_of_arrival.'. I have been continuously residing in Pakistan since ' . $application[0]->applicants->date_of_birth . ' immediately preceding this declaration and I hereby express my intention to abandon my domicile of origin in my intention to take up my placed habitation in Pakistan during the reminder of my life.'); 
+        $pdf->MultiCell(0, 10, '             I further affirm that I had not migrated to India & returned to Pakistan between the 1st March 1947 to the date of this application except on visa No.______ dated _________ issued by the Pakistan Passport office at _______');
+        $pdf->SetFont('Arial', 'BU', 12); 
+        $pdf->Cell(0, 10, 'Other particulars are given below:-',0,1,'L');
+        $pdf->Cell(50, 10, 'Married/single:',0,0,'L');
+        $pdf->SetFont('Arial', '', 12); 
+        $pdf->Cell(0, 10, $application[0]->applicants->marital_status->marital_status ,0,1,'L');
+        $pdf->SetFont('Arial', 'BU', 12);
+        $pdf->Cell(50, 10, 'Name of Wife/Husband:',0,0,'L');
+        $pdf->SetFont('Arial', '', 12); 
+        $pdf->Cell(0, 10, $application[0]->applicants->fathername,0,1,'L');
+        $pdf->SetFont('Arial', 'BU', 12);
+        $pdf->Cell(0, 10, 'Name of Children & their ages including date of birth:',0,1,'L');
+        $pdf->SetFont('Arial', '', 12); 
+        foreach($application[0]->applicants->childerns as $child){
+            $pdf->Cell(50, 10, $child->child_name,0,0,'L');
+            $pdf->Cell(0, 10, $child->child_dob,0,1,'L');
+        }
+        $pdf->SetFont('Arial', 'BU', 12);
+        $pdf->Cell(70, 10, 'Trade & Occupation:',0,0,'L');
+        $pdf->SetFont('Arial', '', 12);
+        $pdf->Cell(0, 10, $application[0]->applicants->occupations->occupation,0,1,'L');
 
-        $pdf->SetFont('Arial','', 12);
         $pdf->Cell(0, 10, 'Do solemnly affirm that the above statement is true of the best of my knowledge and belief.',0,1,'L');
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->Ln(8);
         $pdf->Cell(120, 10, '',0,0,'L');
-        $pdf->Cell(0, 10, 'Signature: __________________',0,1,'L');
+        $pdf->Cell(0, 10, 'Signature: ________________',0,1,'L');
         $pdf->Cell(120, 10, '',0,0,'L');
-        $pdf->Cell(0, 10, 'CNIC: __________________',0,1,'L');
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(20, 10, 'CNIC:      ',0,0,'L');
+        $pdf->SetFont('Arial', 'U', 12);
+        $pdf->Cell(0, 10, $application[0]->applicants->cnic,0,1,'L');
         $pdf->Cell(120, 10, '',0,0,'L');
-        $pdf->Cell(0, 10, 'CNIC: __________________',0,1,'L');
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(20, 10, 'Contact:',0,0,'L');
+        $pdf->SetFont('Arial', 'U', 12);
+        $pdf->Cell(0, 10, $application[0]->applicants->contact,0,1,'L');
         $pdf_path = storage_path('app\public\certificates\form-p'.$id.'.pdf');
         $pdf->Output('F', $pdf_path);
     }
@@ -325,15 +331,33 @@ class dashboardController extends Controller
         $pdf_path = storage_path('app\public\certificates\verification'.$id.'.pdf');
         $pdf->Output('F', $pdf_path);
     }
+    public function create_text_file($content){
+        //createing verification certificate
+        $filename = "example.txt";
+
+        // Open the file in write mode ("w" will overwrite the file if it exists)
+        $file = fopen($filename, "w");
+
+        // Check if the file was successfully opened
+        if ($file) {
+            
+            // Write content to the file
+            fwrite($file, $content);
+
+            // Close the file
+            fclose($file);
+        }
+    }
     public function updatestatus(Request $request, $id){
+        
         $request->validate([
             'status_id'=>'required|numeric|between:1,7',
             'remarks'=>'string|max:100',
         ]);
         $user = Auth::user();
         //obtain application type
-        $app_type = application::findorfail($id)->get();
-        $app_type = $app_type[0]->application_type_id;
+        $app_type = application::findorfail($id);
+        $app_type = $app_type->application_type_id;
         // 1 is citizen means both operator and admin can update status
         if ($user->role!=1){
             // 2 means approve application and user is not admin
@@ -351,23 +375,8 @@ class dashboardController extends Controller
                 'receiver_id'=>$application->user_id,
                 'chat'=>$request->remarks,
             ]);
-            //createing verification certificate
-            $filename = "example.txt";
-
-            // Open the file in write mode ("w" will overwrite the file if it exists)
-            $file = fopen($filename, "w");
-
-            // Check if the file was successfully opened
-            if ($file) {
-                // Content to write into the file
-                $content = $app_type;
-
-                // Write content to the file
-                fwrite($file, $content);
-
-                // Close the file
-                fclose($file);
-            }
+            $content = $request->status_id ;
+            $this->create_text_file($content);
             if($request->status_id==4 and $app_type==2){
                 $application = application::with(['applicants'=>function($query){
                                 $query->select('id', 'cnic', 'name', 'fathername', 'domicile_number', 'issuance_date');
@@ -378,12 +387,14 @@ class dashboardController extends Controller
                                 ->where('id', $id)->get();
                 
                 $this->gen_pdf($id, $application);
-            } else if ($request->status_id==4 and $app_type==1){
+            } else if ($request->status_id==2 and $app_type==1){
+                
                 $application = application::with(['applicants'=>function($query){
-                    $query->select('id', 'cnic', 'name', 'fathername', 'date_of_birth', 'date_of_arrival', 'temporaryAddress', 'permanentAddress' )->with('childerns');
+                    $query->select('id', 'cnic', 'name', 'fathername', 'date_of_birth', 
+                    'date_of_arrival', 'temporaryAddress', 'permanentAddress', 'marital_status_id', 'occupation_id')
+                    ->with('childerns', 'marital_status', 'occupations');
                     }])
-                    
-                    ->where('id', '28')->get();
+                    ->where('id', $id)->get();
                                 
                 $this->gen_form_p($id, $application);
             }
