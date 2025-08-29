@@ -13,6 +13,20 @@ Route::get('/', function () {
     return view('welcome');
     // return view('test');
 });
+Route::get('/domicile', function () {
+    return view('domicile');
+    // return view('test');
+})->name('domicile');
+
+Route::get('/idp', function () {
+    return view('idp');
+    // return view('test');
+})->name('idp');
+
+Route::get('/domicile/wizard', function () {
+    return view('wizard');
+    // return view('test');
+})->name('wizard');
 Route::get('/test', [dashboardController::class, 'test'])->name('test');
 Route::get('/tehsils', function(){
     $tehsils = DB::table('tehsils')->get(['ID', 'Teh_name']);

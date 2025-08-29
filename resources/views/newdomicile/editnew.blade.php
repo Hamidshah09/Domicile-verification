@@ -42,7 +42,12 @@
                                 <x-text-input id="fathername" class="block mt-1 w-full p-2" type="text" name="fathername" :value="old('fathername', $application->applicants->fathername)" required autofocus autocomplete="fathername" />
                                 <x-input-error :messages="$errors->get('fathername')" class="mt-2" />
                             </div>
-
+                            
+                            <div class="form-control">
+                                <x-input-label for="spousename" :value="__('Spouse Name')" />
+                                <x-text-input id="spousename" class="block mt-1 w-full p-2" type="text" name="spousename" :value="old('spousename', $application->applicants->->spousename)" required autofocus autocomplete="spousename" />
+                                <x-input-error :messages="$errors->get('spousename')" class="mt-2" />
+                            </div>
 
                             <div class="form-control">
                                 <x-input-label for="date_of_birth" :value="__('Date of Birth')" />

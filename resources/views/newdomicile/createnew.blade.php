@@ -33,20 +33,25 @@
         
                             <div class="form-control">
                                 <x-input-label for="name" :value="__('Name')" />
-                                <x-text-input id="name" class="block mt-1 w-full p-2" type="text" name="name" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+                                <x-text-input id="name" class="block mt-1 w-full p-2" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
                                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
                             </div>
 
                             <div class="form-control">
                                 <x-input-label for="fathername" :value="__('Father/Husband Name')" />
-                                <x-text-input id="fathername" class="block mt-1 w-full p-2" type="text" name="fathername" :value="old('fathername', $user->fathername)" required autofocus autocomplete="fathername" />
+                                <x-text-input id="fathername" class="block mt-1 w-full p-2" type="text" name="fathername" :value="old('fathername')" required autofocus autocomplete="fathername" />
                                 <x-input-error :messages="$errors->get('fathername')" class="mt-2" />
                             </div>
 
+                            <div class="form-control">
+                                <x-input-label for="spousename" :value="__('Spouse Name')" />
+                                <x-text-input id="spousename" class="block mt-1 w-full p-2" type="text" name="spousename" :value="old('spousename')" required autofocus autocomplete="spousename" />
+                                <x-input-error :messages="$errors->get('spousename')" class="mt-2" />
+                            </div>
 
                             <div class="form-control">
                                 <x-input-label for="date_of_birth" :value="__('Date of Birth')" />
-                                <x-text-input id="date_of_birth" class="block mt-1 w-full p-2" type="date" name="date_of_birth" :value="old('date_of_birth', '1982-06-05')" required autofocus autocomplete="date_of_birth" />
+                                <x-text-input id="date_of_birth" class="block mt-1 w-full p-2" type="date" name="date_of_birth" :value="old('date_of_birth')" required autofocus autocomplete="date_of_birth" />
                                 <x-input-error :messages="$errors->get('date_of_birth')" class="mt-2" />
                             </div>
 
@@ -63,7 +68,7 @@
 
                             <div class="form-control">
                                 <x-input-label for="place_of_birth" :value="__('Place of Birth')" />
-                                <x-text-input id="place_of_birth" class="block mt-1 w-full p-2" type="text" name="place_of_birth" :value="old('place_of_birth', 'Karachi')" max="45" required autofocus autocomplete="place_of_birth" />
+                                <x-text-input id="place_of_birth" class="block mt-1 w-full p-2" type="text" name="place_of_birth" :value="old('place_of_birth')" max="45" required autofocus autocomplete="place_of_birth" />
                                 <x-input-error :messages="$errors->get('place_of_birth')" class="mt-2" />
                             </div>
 
@@ -72,8 +77,8 @@
                                 <select name="marital_status_id" id="marital_status_id" class="w-full border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" :value="old('marital_status_id')" required autofocus autocomplete="marital_status">
                                     
                                     <option value="">Select Marital Status</option>
-                                    <option value="1">Single</option>
-                                    <option selected value="2">Married</option>
+                                    <option selected value="1">Single</option>
+                                    <option value="2">Married</option>
                                     <option value="3">Divorced</option>
                                     <option value="4">Widowed</option>
                                     <option value="5">Widower</option>
@@ -107,11 +112,11 @@
                                 <x-input-label for="occupation_id" :value="__('Ocupation')" />
                                 <select name="occupation_id" id="occupation_id" class="w-full border-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" :value="old('occupation_id')" autofocus autocomplete="occupation_id">
                                         <option value="">Select Occupation</option>
-                                        <option selected value="1">Government Employee</option>
+                                        <option value="1">Government Employee</option>
                                         <option value="2">Non Government Employee</option>
                                         <option value="3">Own Business</option>
                                         <option value="4">Student</option>
-                                        <option value="5">Other</option>
+                                        <option selected value="5">Other</option>
                                         <option value="6">House wife</option>
                                         <option value="7">Private Job</option>
                                 </select>
@@ -119,12 +124,12 @@
                             </div>
                             <div class="form-control">
                                 <x-input-label for="contact" :value="__('Contact')" />
-                                <x-text-input id="contact" class="block mt-1 w-full p-2" type="text" max="11" name="contact" :value="old('contact', '03345927274')" min="11" max=11 autofocus autocomplete="contact" />
+                                <x-text-input id="contact" class="block mt-1 w-full p-2" type="text" max="11" name="contact" :value="old('contact')" min="11" max=11 autofocus autocomplete="contact" />
                                 <x-input-error :messages="$errors->get('contact')" class="mt-2" />
                             </div>
                             <div class="form-control">
                                 <x-input-label for="date_of_arrival" :value="__('Date of arrival')" />
-                                <x-text-input id="date_of_arrival" class="block mt-1 w-full p-2" type="date" name="date_of_arrival" :value="old('date_of_arrival', '2010-10-01')" autofocus autocomplete="date_of_arrival" />
+                                <x-text-input id="date_of_arrival" class="block mt-1 w-full p-2" type="date" name="date_of_arrival" :value="old('date_of_arrival')" autofocus autocomplete="date_of_arrival" />
                                 <x-input-error :messages="$errors->get('date_of_arrival')" class="mt-2" />
                             </div>
                         </div>

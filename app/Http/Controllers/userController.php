@@ -15,7 +15,7 @@ use Illuminate\Validation\Rules;
 class userController extends Controller
 {
     public function usersgrid(){
-        $users = User::with('user_types', 'user_statuses', 'role_types')->get();
+        $users = User::with('user_types', 'user_statuses', 'role_types')->paginate(10);
         return view('user.usersgrid', compact('users'));
     }
     public function newuser(){
@@ -84,15 +84,11 @@ class userController extends Controller
             'cnic' => ['required' ,'string', 'size:13'],
             'name' => ['required', 'string', 'max:255'],
             'fathername' => ['required', 'string', 'max:255'],
-            
         ]);
         
         if($request->password){
             $request->validate(['password' => ['required', Rules\Password::defaults()],]);
         }
-        
-        
-
         $user = User::findorfail($id);
         if ($user->email != $request->email){
             $request->validate(['email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class]]);

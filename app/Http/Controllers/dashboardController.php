@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 use Fpdf\Fpdf;
-use Fpdf\html2pdf;
 use App\Models\applicants;
 use App\Models\application;
 use App\Models\application_statuses;
@@ -366,6 +365,7 @@ class dashboardController extends Controller
             }
 
             $application = application::findorfail($id);
+            echo $application;
             $application->application_status_id = $request->status_id;
             $application->save();
             
@@ -391,7 +391,7 @@ class dashboardController extends Controller
                 
                 $application = application::with(['applicants'=>function($query){
                     $query->select('id', 'cnic', 'name', 'fathername', 'date_of_birth', 
-                    'date_of_arrival', 'temporaryAddress', 'permanentAddress', 'marital_status_id', 'occupation_id')
+                    'date_of_arrival', 'temporaryAddress', 'permanentAddress', 'marital_status_id', 'occupation_id', 'contact')
                     ->with('childerns', 'marital_status', 'occupations');
                     }])
                     ->where('id', $id)->get();

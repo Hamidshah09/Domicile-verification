@@ -1,0 +1,112 @@
+.servcies-background {
+    background-image: url("../../customassets/servcies-background.jpg");
+    background-position: center;
+    background-size: cover;
+}
+.main-title {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 10px;
+    /* background: rgba(255, 255, 255, 0.7); */
+    /* backdrop-filter: blur(17px);
+    --webkit-backdrop-filter: blur(17px); */
+    background-image: url("../../customassets/cfc.jpg");
+    background-position: center;
+    background-size: cover;
+}
+.lighter-font {
+    font-size: 36px;
+    font-weight: 500;
+    text-shadow: 0 0 5px #98949480, 0 0 10px #98949480, 0 0 15px #98949480,
+        0 0 20px #98949480, 0 0 25px #98949480, 0 0;
+}
+.bigger-font {
+    font-size: 48px;
+    font-weight: 500;
+    text-shadow: 0 0 5px #98949480, 0 0 10px #98949480, 0 0 15px #98949480,
+        0 0 20px #98949480, 0 0 25px #98949480, 0 0;
+}
+.form-control {
+    width: 320px;
+    margin: 10px;
+}
+.blur-effect {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(17px);
+    --webkit-backdrop-filter: blur(17px);
+}
+.main {
+    width: 100vw;
+    /* height: 90vh; */
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+
+/* CSS for glowing text */
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 5px rgb(0, 0, 255), 0 0 10px blue, 0 0 15px blue,
+            0 0 20px blue, 0 0 25px blue;
+    }
+    100% {
+        text-shadow: 0 0 20px blue, 0 0 30px blue, 0 0 40px blue, 0 0 50px blue,
+            0 0 60px blue;
+    }
+}
+
+.flex-w {
+    flex-wrap: wrap;
+}
+.mr-1 {
+    margin-right: 5px;
+}
+.mr-2 {
+    margin-right: 10px;
+}
+.mr-3 {
+    margin-right: 15px;
+}
+
+.ml-1 {
+    margin-left: 5px;
+}
+.ml-2 {
+    margin-left: 10px;
+}
+.ml-3 {
+    margin-left: 15px;
+}
+.ml-4 {
+    margin-left: 20px;
+}
+.ml-5 {
+    margin-left: 25px;
+}
+.mb-1 {
+    margin-bottom: 5px;
+}
+.mb-2 {
+    margin-bottom: 10px;
+}
+.mb-3 {
+    margin-bottom: 15px;
+}
+
+.my-1 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.my-2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.my-3 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
